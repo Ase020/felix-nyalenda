@@ -1,6 +1,13 @@
+"use client";
+
 import { cn } from "@/lib/utils";
 import { BackgroundGradientAnimation } from "./BackgroundGradientAnimation";
 import { GithubGlobe } from "./GithubGlobe";
+import Lottie from "react-lottie";
+import { useState } from "react";
+import animationData from "@/data/confetti.json";
+import MagicButton from "./MagicButton";
+import { IoCopyOutline } from "react-icons/io5";
 
 export const BentoGrid = ({
   className,
@@ -12,7 +19,8 @@ export const BentoGrid = ({
   return (
     <div
       className={cn(
-        "grid md:auto-rows-[18rem] grid-cols-1 md:grid-cols-3 gap-4 max-w-7xl mx-auto ",
+        // "grid md:auto-rows-[18rem] grid-cols-1 md:grid-cols-3 gap-4 max-w-7xl mx-auto ",
+        "grid grid-cols-1 md:grid-cols-6 lg:grid-cols-5 md:grid-row-7 gap-4 lg:gap-8 mx-auto",
         className
       )}
     >
@@ -40,8 +48,15 @@ export const BentoGridItem = ({
   titleClassName?: string;
   spareImg?: string;
 }) => {
+  const [copied, setCopied] = useState(false);
+
   const leftLists = ["ReactJS", "ExpressJS", "TypeScript"];
   const rightLists = ["NextJS", "Ruby on Rails", "PostgreSQL"];
+
+  const handleCopy = () => {
+    navigator.clipboard.writeText("felix5olali@gmail.com");
+    setCopied(true);
+  };
   return (
     <div
       className={cn(
@@ -127,6 +142,31 @@ export const BentoGridItem = ({
                   </span>
                 ))}
               </div>
+            </div>
+          )}
+
+          {id === 6 && (
+            <div className="mt-5 relative">
+              <div className={`absolute -bottom-5 right-0`}>
+                <Lottie
+                  options={{
+                    loop: copied,
+                    autoplay: copied,
+                    animationData,
+                    rendererSettings: {
+                      preserveAspectRatio: "xMidYMid slice",
+                    },
+                  }}
+                />
+              </div>
+
+              <MagicButton
+                title={copied ? "Email copied" : "Copy my email"}
+                icon={<IoCopyOutline />}
+                position="left"
+                otherClasses="!bg-[#161a31]"
+                handleClick={handleCopy}
+              />
             </div>
           )}
         </div>
